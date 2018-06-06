@@ -27,16 +27,6 @@ public class DeserializerTests
     }
   }
 
-  const float PreFirst = 128f;
-  const int PreSecond = 64;
-  const byte PreThird = 32;
-
-  static SerializedStruct preInitialized = new SerializedStruct() {
-    First = PreFirst,
-    Second = PreSecond,
-    Third = PreThird
-  };
-
   public bool CompareArray(byte[] a, byte[] b)
   {
     if (a.Length != b.Length)
