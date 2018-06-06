@@ -1,3 +1,5 @@
+using System;
+
 namespace Wander.NeST
 {
   /// <summary>
@@ -7,11 +9,11 @@ namespace Wander.NeST
   /// </summary>
   public static class Readers
   {
-    public delegate T Reader<T>(out T value, byte[] array, int index = 0);
+    public delegate int Reader<T>(out T value, byte[] array, int index = 0);
 
     public static int ReadByte(out byte value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       value = array[index];
       return 1;
@@ -19,7 +21,7 @@ namespace Wander.NeST
 
     public static int ReadSByte(out sbyte value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       value = (sbyte)array[index];
       return 1;
@@ -27,7 +29,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadShort(out short value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       short output;
       byte* ptr = (byte*)&output;
@@ -38,7 +40,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadUShort(out ushort value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       ushort output;
       byte* ptr = (byte*)&output;
@@ -49,7 +51,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadChar(out char value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = '\0'; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       char output;
       byte* ptr = (byte*)&output;
@@ -60,7 +62,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadInt(out int value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       int output;
       byte* ptr = (byte*)&output;
@@ -71,7 +73,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadUInt(out uint value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       uint output;
       byte* ptr = (byte*)&output;
@@ -82,7 +84,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadFloat(out float value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       float output;
       byte* ptr = (byte*)&output;
@@ -93,7 +95,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadLong(out long value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       long output;
       byte* ptr = (byte*)&output;
@@ -104,7 +106,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadULong(out ulong value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       ulong output;
       byte* ptr = (byte*)&output;
@@ -115,7 +117,7 @@ namespace Wander.NeST
 
     public static unsafe int ReadDouble(out double value, byte[] array, int index = 0)
     {
-      if (index + 1 > array.Length) { value = 0; return 0; }
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
 
       double output;
       byte* ptr = (byte*)&output;
