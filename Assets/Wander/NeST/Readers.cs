@@ -1,7 +1,14 @@
 namespace Wander.NeST
 {
+  /// <summary>
+  /// Class containing methods that will read primitive values from an array
+  /// of bytes at a specified index. Functions return the number of bytes
+  /// read, so if these fail they'll return 0.
+  /// </summary>
   public static class Readers
   {
+    public delegate T Reader<T>(out T value, byte[] array, int index = 0);
+
     public static int ReadByte(out byte value, byte[] array, int index = 0)
     {
       if (index + 1 > array.Length) { value = 0; return 0; }

@@ -1,7 +1,14 @@
 namespace Wander.NeST
 {
+  /// <summary>
+  /// Class containing methods that will write primitive values to an array
+  /// of bytes at a specified index. Functions return the number of bytes
+  /// written, so if these fail they'll return 0.
+  /// </summary>
   public static class Writers
   {
+    public delegate int Writer<T>(T value, byte[] array, int index = 0);
+
     public static int WriteByte(byte value, byte[] array, int index = 0)
     {
       if (index + 1 > array.Length) 
