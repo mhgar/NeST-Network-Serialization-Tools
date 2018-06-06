@@ -11,6 +11,17 @@ namespace Wander.NeST
   {
     public delegate int Reader<T>(out T value, byte[] array, int index = 0);
 
+    public static int ReadString(out string value, byte[] array, int index = 0)
+    {
+      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+
+      int length;
+      ReadInt(out length, array, index);
+      value = System.Text.Encoding.Default.GetString(array, index + 4, length);
+
+      return 4 + length * 2;
+    }
+
     public static int ReadByte(out byte value, byte[] array, int index = 0)
     {
       if (index + 1 > array.Length) throw new IndexOutOfRangeException();
