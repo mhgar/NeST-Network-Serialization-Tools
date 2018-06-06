@@ -19,6 +19,7 @@ namespace Wander.NeST
     public const int ULongLength = 8;
     public const int DoubleLength = 8;
 
-    public const int DecimalLength = 16;
+    // Unused for now.
+    // public const int DecimalLength = 16;
   }
 }
