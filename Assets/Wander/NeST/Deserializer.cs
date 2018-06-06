@@ -6,6 +6,20 @@ namespace Wander.NeST
   /// objects from it until the end of the array.
   public class Deserializer
   {
+    public byte[] Array { get { return data; } }
+    public int Length { get { return dataLength; } }
+    public int Position
+    {
+      get { return readHead; }
+      set
+      {
+        if (value >= dataLength)
+          throw new IndexOutOfRangeException();
+        else
+          readHead = value;
+      }
+    }
+
     byte[] data;
     int readHead = 0;
     int dataLength;
@@ -30,7 +44,7 @@ namespace Wander.NeST
       readHead = startIndex;      
     }
 
-    /// Deerialize an ISerializable from this object's internal byte array.
+    /// Deserialize an ISerializable from this object's internal byte array.
     public T Deserialize<T>() where T : ISerializable, new()
     {
       T t = new T();

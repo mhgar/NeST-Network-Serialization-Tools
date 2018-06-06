@@ -6,7 +6,19 @@ namespace Wander.NeST
   /// objects from it until the end of the array.
   public class Serializer
   {
-    public byte[] Array { get { return data; }}
+    public byte[] Array { get { return data; } }
+    public int Length { get { return dataLength; } }
+    public int Position
+    {
+      get { return writeHead; }
+      set
+      {
+        if (value >= dataLength)
+          throw new IndexOutOfRangeException();
+        else
+          writeHead = value;
+      }
+    }
 
     byte[] data;
     int writeHead = 0;
@@ -14,10 +26,10 @@ namespace Wander.NeST
 
     public Serializer(byte[] array, int startIndex = 0, int length = -1)
     {
-      if (array == null) 
+      if (array == null)
         throw new ArgumentNullException("array");
 
-      if (length > array.Length) 
+      if (length > array.Length)
         throw new ArgumentOutOfRangeException("length");
 
       // If length is default value, use size of the array instead.
@@ -25,7 +37,7 @@ namespace Wander.NeST
 
       // Check if start index is greater than the array length, or if 'length'
       // has been set, check against that instead.
-      if (startIndex > dataLength - 1) 
+      if (startIndex > dataLength - 1)
         throw new ArgumentOutOfRangeException("startIndex");
 
       writeHead = startIndex;
