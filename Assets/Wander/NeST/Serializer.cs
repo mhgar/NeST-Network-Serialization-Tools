@@ -20,16 +20,16 @@ namespace Wander.NeST
       if (length > array.Length) 
         throw new ArgumentOutOfRangeException("length");
 
+      // If length is default value, use size of the array instead.
+      dataLength = (length < 0 ? array.Length : length);
+
       // Check if start index is greater than the array length, or if 'length'
       // has been set, check against that instead.
-      if (startIndex > (length < 0 ? array.Length : length) - 1) 
+      if (startIndex > dataLength - 1) 
         throw new ArgumentOutOfRangeException("startIndex");
 
       writeHead = startIndex;
       data = array;
-
-      // If length is default value, use size of the array instead.
-      dataLength = (length < 0 ? data.Length : length);
     }
 
     // Don't need new() here; just for parity with Deserialize()
