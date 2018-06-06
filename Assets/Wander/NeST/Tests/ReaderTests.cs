@@ -105,4 +105,26 @@ public class ReadersTests
         Assert.AreEqual(read, expectedRead, "Read wrong number of bytes");
         Assert.AreEqual(value, expectedValue, "Read wrong value: " + value + " != " + expectedValue);
     }
+
+    [TestCase(new byte[] { 0x00, 0x00, 0xC0, 0x7F, 0x44, 0x00, 0x00, 0x00, 0x00 }, 1023f, 4, 1)]
+    [TestCase(new byte[] { }, 0, 0, 1)] // Read nothing from out of bounds
+    public void ReadFloat(byte[] array, float expectedValue, int expectedRead, int startIndex = 0)
+    {
+        float value;
+        var read = Readers.ReadFloat(out value, array, startIndex);
+
+        Assert.AreEqual(read, expectedRead, "Read wrong number of bytes");
+        Assert.AreEqual(value, expectedValue, "Read wrong value: " + value + " != " + expectedValue);
+    }
+
+    [TestCase(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x26, 0x68, 0x65, 0x41 }, 11223344.0, 8, 1)]
+    [TestCase(new byte[] { }, 0, 0, 1)] // Read nothing from out of bounds
+    public void ReadDouble(byte[] array, double expectedValue, int expectedRead, int startIndex = 0)
+    {
+        double value;
+        var read = Readers.ReadDouble(out value, array, startIndex);
+
+        Assert.AreEqual(read, expectedRead, "Read wrong number of bytes");
+        Assert.AreEqual(value, expectedValue, "Read wrong value: " + value + " != " + expectedValue);
+    }
 }

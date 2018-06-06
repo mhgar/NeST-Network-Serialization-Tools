@@ -73,6 +73,17 @@ namespace Wander.NeST
       return Sizes.UIntLength;
     }
 
+    public static unsafe int ReadFloat(out float value, byte[] array, int index = 0)
+    {
+      if (index + 1 > array.Length) { value = 0; return 0; }
+
+      float output;
+      byte* ptr = (byte*)&output;
+      for (int i = 0; i < Sizes.FloatLength; i++) ptr[i] = array[index + i];
+      value = output;
+      return Sizes.FloatLength;
+    }
+
     public static unsafe int ReadLong(out long value, byte[] array, int index = 0)
     {
       if (index + 1 > array.Length) { value = 0; return 0; }
@@ -93,6 +104,17 @@ namespace Wander.NeST
       for (int i = 0; i < Sizes.ULongLength; i++) ptr[i] = array[index + i];
       value = output;
       return Sizes.ULongLength;
+    }
+
+    public static unsafe int ReadDouble(out double value, byte[] array, int index = 0)
+    {
+      if (index + 1 > array.Length) { value = 0; return 0; }
+
+      double output;
+      byte* ptr = (byte*)&output;
+      for (int i = 0; i < Sizes.DoubleLength; i++) ptr[i] = array[index + i];
+      value = output;
+      return Sizes.DoubleLength;
     }
   }
 }

@@ -85,6 +85,17 @@ public class WritersTests
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
+  [TestCase(1023f, new byte[] { 0, 0x00, 0xc0, 0x7f, 0x44, 0, 0, 0, 0 }, 4, 1)] // Write 6 from position 1
+  [TestCase(0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0, 128)] // Write nothing from of bounds
+  public void WriteFloat(float value, byte[] expectedArray, int expectedWrite, int startIndex = 0)
+  {
+    var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    var Write = Writers.WriteFloat(value, array, startIndex);
+
+    Assert.AreEqual(Write, expectedWrite, "Write wrong number of bytes");
+    Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
+  }
+
   [TestCase(0xABAB, new byte[] { 0, 0xAB, 0xAB, 0, 0, 0, 0, 0, 0 }, 4, 1)] // Write 6 from position 1
   [TestCase(0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0, 128)] // Write nothing from of bounds
   public void WriteUInt(long value, byte[] expectedArray, int expectedWrite, int startIndex = 0)
@@ -113,6 +124,17 @@ public class WritersTests
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     var Write = Writers.WriteULong((ulong) value, array, startIndex);
+
+    Assert.AreEqual(Write, expectedWrite, "Write wrong number of bytes");
+    Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
+  }
+
+  [TestCase(11223344.0, new byte[] { 0, 0, 0, 0, 0, 0x26, 0x68, 0x65, 0x41 }, 8, 1)] // Write 6 from position 1
+  [TestCase(0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0, 128)] // Write nothing from of bounds
+  public void WriteDouble(double value, byte[] expectedArray, int expectedWrite, int startIndex = 0)
+  {
+    var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    var Write = Writers.WriteDouble(value, array, startIndex);
 
     Assert.AreEqual(Write, expectedWrite, "Write wrong number of bytes");
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
