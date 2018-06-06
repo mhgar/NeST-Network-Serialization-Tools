@@ -14,36 +14,16 @@ public class DeserializerTests
     public int Second;
     public byte Third;
 
-    public int DeserializeFrom(byte[] array, int index = 0)
-    {
-      if (index + 9 > array.Length)
-        return 0;
-
-      index += Readers.ReadFloat(out First, array, index);
-      index += Readers.ReadInt(out Second, array, index);
-      index += Readers.ReadByte(out Third, array, index);
-
-      return 9;
-    }
-
     public void DeserializeFrom(Deserializer deserializer)
     {
-      deserializer.Deserialize
+      First = deserializer.DeserializeUsing<float>(Readers.ReadFloat);
+      Second = deserializer.DeserializeUsing<int>(Readers.ReadInt);
+      Third = deserializer.DeserializeUsing<byte>(Readers.ReadByte);
     }
 
-    public int SerializeTo(byte[] array, int index = 0)
+    public void SerializeTo(Serializer serializer)
     {
       throw new NotImplementedException();
-      /*
-      if (index + 9 > array.Length)
-        return 0;
-
-      index += Writers.WriteFloat(First, array, index);
-      index += Writers.WriteInt(Second, array, index);
-      index += Writers.WriteByte(Third, array, index);
-
-      return 9;
-      */
     }
   }
 
@@ -66,21 +46,6 @@ public class DeserializerTests
       (a[i] != b[i]) 
         return false;
     return true;
-  }
-
-  [TestCase(new byte[] { 0, 0, 0, 0x43, 0x40, 0, 0, 0, 0x20 }, 128f, 64, 32)]
-  public void DeserializeStructManually(byte[] input, float first, int second, byte third)
-  {
-    var output = new SerializedStruct();
-
-    var wrote = output.DeserializeFrom(input, 0);
-
-    Assert.That(wrote == 9, "Didn't write 9 bytes.");
-    Assert.That(output.First == first && 
-                output.Second == second && 
-                output.Third == third,
-                "Output did not have the correct values."
-    );
   }
 
   [TestCase(new byte[] { 0, 0, 0, 0x43, 0x40, 0, 0, 0, 0x20 }, 128f, 64, 32)]

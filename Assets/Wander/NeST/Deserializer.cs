@@ -14,7 +14,7 @@ namespace Wander.NeST
     public T Deserialize<T>() where T : ISerializable, new()
     {
       T t = new T();
-      int written = t.DeserializeFrom(data, readHead);
+      t.DeserializeFrom(this);
       return t;
     }
 
