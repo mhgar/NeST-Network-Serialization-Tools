@@ -10,7 +10,6 @@ namespace Wander.NeST
 
     public Serializer(byte[] array, int startIndex = 0, int length = -1)
     {
-      // Throw for errors
       if (array == null) 
         throw new ArgumentNullException("array");
 

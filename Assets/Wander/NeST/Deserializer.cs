@@ -1,14 +1,29 @@
+using System;
+
 namespace Wander.NeST
 {
   public class Deserializer
   {
     byte[] data;
     int readHead = 0;
+    int dataLength;
 
-    public Deserializer(byte[] array, int index = 0)
+    public Deserializer(byte[] array, int startIndex = 0, int length = -1)
     {
+      if (array == null) 
+        throw new ArgumentNullException("array");
+
+      if (length > array.Length) 
+        throw new ArgumentOutOfRangeException("length");
+
+      if (startIndex > length - 1) 
+        throw new ArgumentOutOfRangeException("startIndex");
+
       data = array;
-      readHead = index;
+      readHead = startIndex;
+
+      // If length is default value, use size of the array instead.
+      dataLength = (length < 0 ? data.Length : length);
     }
 
     public T Deserialize<T>() where T : ISerializable, new()
