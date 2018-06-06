@@ -6,6 +6,8 @@ namespace Wander.NeST
   /// objects from it until the end of the array.
   public class Serializer
   {
+    public byte[] Array { get { return data; }}
+
     byte[] data;
     int writeHead = 0;
     int dataLength;
