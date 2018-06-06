@@ -18,7 +18,9 @@ namespace Wander.NeST
       if (length > array.Length) 
         throw new ArgumentOutOfRangeException("length");
 
-      if (startIndex > length - 1) 
+      // Check if start index is greater than the array length, or if 'length'
+      // has been set, check against that instead.
+      if (startIndex > (length < 0 ? array.Length : length) - 1) 
         throw new ArgumentOutOfRangeException("startIndex");
 
       data = array;
