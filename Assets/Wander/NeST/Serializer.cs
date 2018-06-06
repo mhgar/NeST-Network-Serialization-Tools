@@ -2,6 +2,8 @@ using System;
 
 namespace Wander.NeST
 {
+  /// A serialization helper that given a byte array allows you to serialize
+  /// objects from it until the end of the array.
   public class Serializer
   {
     byte[] data;
@@ -25,12 +27,16 @@ namespace Wander.NeST
       // If length is default value, use size of the array instead.
       dataLength = (length < 0 ? data.Length : length);
     }
+
     // Don't need new() here; just for parity with Deserialize()
+    /// Serialize an ISerializable to this object's internal byte array.
     public void Serialize<T>(T structure) where T : ISerializable, new()
     {
       structure.SerializeTo(this);
     }
 
+    /// Serialize an object using a writer function that implements how the
+    /// object should be serialized.
     public void SerializeUsing<T>(T value, Writers.Writer<T> writer)
     {
       // Allow thrown exceptions to fall through into the caller.

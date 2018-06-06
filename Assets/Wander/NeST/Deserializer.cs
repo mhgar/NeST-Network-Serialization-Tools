@@ -2,6 +2,8 @@ using System;
 
 namespace Wander.NeST
 {
+  /// A deserialization helper that given a byte array allows you to deserialize
+  /// objects from it until the end of the array.
   public class Deserializer
   {
     byte[] data;
@@ -26,6 +28,7 @@ namespace Wander.NeST
       dataLength = (length < 0 ? data.Length : length);
     }
 
+    /// Deerialize an ISerializable from this object's internal byte array.
     public T Deserialize<T>() where T : ISerializable, new()
     {
       T t = new T();
@@ -33,6 +36,8 @@ namespace Wander.NeST
       return t;
     }
 
+    /// Deserialize an object using a reader function that implements how the
+    /// object should be serialized.
     public T DeserializeUsing<T>(Readers.Reader<T> reader)
     {
       T value;
