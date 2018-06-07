@@ -27,7 +27,7 @@ public class SerializerTests
     }
   }
 
-  public bool CompareArray(byte[] a, byte[] b)
+  bool CompareArray(byte[] a, byte[] b)
   {
     if (a.Length != b.Length)
       throw new System.ArgumentException("Arrays must be same length");
@@ -38,8 +38,32 @@ public class SerializerTests
     return true;
   }
 
+  string PrintArray(byte[] array)
+  {
+    string output = "";
+    foreach(var b in array) { output += string.Format("{0:X} ", b); };
+    return output;
+  }
+
+  [TestCase(new byte[] { 0x40, 0, 0, 0 }, 64)]
+  public void SerializeInteger(byte[] expected, int value)
+  {
+    var buffer = new byte[4];
+    var serializer = new Serializer(buffer);
+
+    serializer.SerializeUsing(value, Writers.WriteInt);
+
+    Assert.That(
+      CompareArray(serializer.Array, expected),
+      "The serialization result is different than expected.\n"+
+      "Got: " + PrintArray(serializer.Array) + "\nExpected: " + 
+      PrintArray(expected)
+    );
+    Assert.That(serializer.HasEnded, "Serializer still has data.");
+  }
+
   [TestCase(new byte[] { 0, 0, 0, 0x43, 0x40, 0, 0, 0, 0x20 }, 128f, 64, 32)]
-  public void SerializerObject(byte[] expected, float first, int second, byte third)
+  public void SerializeISerializable(byte[] expected, float first, int second, byte third)
   {
     var buffer = new byte[9];
     var serializer = new Serializer(buffer);
@@ -49,7 +73,10 @@ public class SerializerTests
 
     Assert.That(
       CompareArray(serializer.Array, expected),
-      "The serialization result is different than expected."
+      "The serialization result is different than expected.\n"+
+      "Got: " + PrintArray(serializer.Array) + "\nExpected: " + 
+      PrintArray(expected)
     );
+    Assert.That(serializer.HasEnded, "Serializer still has data.");
   }
 }

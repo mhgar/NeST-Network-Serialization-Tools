@@ -13,12 +13,15 @@ namespace Wander.NeST
       get { return readHead; }
       set
       {
-        if (value >= dataLength || value < 0)
+        if (value > dataLength)
           throw new IndexOutOfRangeException();
         else
           readHead = value;
       }
     }
+
+    // Kind of unsafe but good enough for now.
+    public bool HasEnded { get { return Position == dataLength; }}
 
     byte[] data;
     int readHead = 0;

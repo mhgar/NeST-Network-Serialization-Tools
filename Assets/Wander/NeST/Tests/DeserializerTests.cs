@@ -38,17 +38,26 @@ public class DeserializerTests
     return true;
   }
 
+  [TestCase(new byte[] { 0x40, 0, 0, 0 }, 64)]
+  public void DeerializeInteger(byte[] input, int expected)
+  {
+    var deserializer = new Deserializer(input);
+    var got = deserializer.DeserializeUsing<int>(Readers.ReadInt);    
+
+    Assert.AreEqual(expected, got, "The deserialization result is different than expected.");
+    Assert.That(deserializer.HasEnded, "Deserializer still has data.");
+  }
+
   [TestCase(new byte[] { 0, 0, 0, 0x43, 0x40, 0, 0, 0, 0x20 }, 128f, 64, 32)]
-  public void DeserializerObject(byte[] input, float first, int second, byte third)
+  public void DeserializeISerializable(byte[] input, float first, int second, byte third)
   {
     var deserializer = new Deserializer(input);
 
     var output = deserializer.Deserialize<SerializedStruct>();
 
-    Assert.That(output.First == first && 
-                output.Second == second && 
-                output.Third == third,
-                "Output did not have the correct values."
-    );
+    Assert.AreEqual(first, output.First, "Received incorrect 'First' value.");
+    Assert.AreEqual(second, output.Second, "Received incorrect 'Second' value.");
+    Assert.AreEqual(third, output.Third, "Received incorrect 'Third' value.");
+    Assert.That(deserializer.HasEnded, "Deserializer still has data.");
   }
 }
