@@ -60,4 +60,21 @@ public class DeserializerTests
     Assert.AreEqual(third, output.Third, "Received incorrect 'Third' value.");
     Assert.That(deserializer.HasEnded, "Deserializer still has data.");
   }
+
+  [TestCase(new byte[] { 0, 0, 0, 0x43, 0x40, 0, 0, 0, 0x20 }, 128f, 64, 32)]
+  public void DeserializeGeneric(byte[] input, float a, int b, byte c)
+  {
+    var deserializer = new Deserializer(input);
+
+    var output = deserializer.DeserializeUsing<float, int, byte>(
+      Readers.ReadFloat,
+      Readers.ReadInt,
+      Readers.ReadByte
+    );
+
+    Assert.AreEqual(a, output.a, "Received incorrect 'A' value.");
+    Assert.AreEqual(b, output.b, "Received incorrect 'B' value.");
+    Assert.AreEqual(c, output.c, "Received incorrect 'C' value.");
+    Assert.That(deserializer.HasEnded, "Deserializer still has data.");
+  }
 }

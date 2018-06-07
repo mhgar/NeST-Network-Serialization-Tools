@@ -22,7 +22,7 @@ public class WritersTests
   public void WriteByte(byte value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteByte(value, array, startIndex);
+    Writers.WriteByte(value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -30,7 +30,7 @@ public class WritersTests
   public void WriteSByte(sbyte value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteSByte(value, array, startIndex);
+    Writers.WriteSByte(value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -38,7 +38,7 @@ public class WritersTests
   public void WriteChar(char value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteChar(value, array, startIndex);
+    Writers.WriteChar(value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -46,7 +46,7 @@ public class WritersTests
   public void WriteShort(long value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteShort((short) value, array, startIndex);
+    Writers.WriteShort((short) value, array, startIndex);
 
 
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
@@ -56,7 +56,7 @@ public class WritersTests
   public void WriteUShort(long value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteUShort((ushort) value, array, startIndex);
+    Writers.WriteUShort((ushort) value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -64,7 +64,7 @@ public class WritersTests
   public void WriteInt(long value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteInt((int) value, array, startIndex);
+    Writers.WriteInt((int) value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -72,7 +72,7 @@ public class WritersTests
   public void WriteFloat(float value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteFloat(value, array, startIndex);
+    Writers.WriteFloat(value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -80,7 +80,7 @@ public class WritersTests
   public void WriteUInt(long value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteUInt((uint) value, array, startIndex);
+    Writers.WriteUInt((uint) value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -88,7 +88,7 @@ public class WritersTests
   public void WriteLong(long value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteLong(value, array, startIndex);
+    Writers.WriteLong(value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -96,7 +96,7 @@ public class WritersTests
   public void WriteULong(long value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteULong((ulong) value, array, startIndex);
+    Writers.WriteULong((ulong) value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 
@@ -104,7 +104,7 @@ public class WritersTests
   public void WriteDouble(double value, byte[] expectedArray, int startIndex = 0)
   {
     var array = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    var Write = Writers.WriteDouble(value, array, startIndex);
+    Writers.WriteDouble(value, array, startIndex);
     Assert.IsTrue(CompareArray(array, expectedArray), "Array did not match expected array.");
   }
 }
