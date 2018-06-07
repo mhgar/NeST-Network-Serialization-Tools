@@ -13,7 +13,7 @@ namespace Wander.NeST
       get { return readHead; }
       set
       {
-        if (value >= dataLength)
+        if (value >= dataLength || value < 0)
           throw new IndexOutOfRangeException();
         else
           readHead = value;
@@ -57,7 +57,7 @@ namespace Wander.NeST
     public T DeserializeUsing<T>(Readers.Reader<T> reader)
     {
       T value;
-      readHead += reader(out value, data, readHead);
+      Position += reader(out value, data, readHead);
       return value;
     }
   }
