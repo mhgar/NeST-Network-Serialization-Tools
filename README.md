@@ -65,9 +65,9 @@ public int WriteVector3(Vector3 input, byte[] array, int index = 0)
         // serialized object will be in memory ahead of time.
         if (index + 12 > array.Length) throw new IndexOutOfRangeException();
 
-        index += Writers.WriteFloat(input.x, array, index);
-        index += Writers.WriteFloat(input.y, array, index);
-        Writers.WriteFloat(input.z, array, index);
+        Writers.WriteFloat(input.x, array, index);
+        Writers.WriteFloat(input.y, array, index + 4);
+        Writers.WriteFloat(input.z, array, index + 8);
 
         // The writer functions return the bytes written, so we could return the
         // sum of those if we really wanted to be safe.
