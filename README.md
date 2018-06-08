@@ -50,4 +50,32 @@ serializer.SerializeUsing<float, int, byte>(
 );
 ```
 
+## What are writers and readers?
+
+Writers and readers are passed functions that contain the serialization or deserialization implementation. This makes it very easy to add your own serialization functionality on a case by case basis.
+
+The function signatures are defined in Writers.cs and Readers.cs as ``delegate int Writer<T>(T value, byte[] array, int index = 0);`` and ``delegate int Reader<T>(out T value, byte[] array, int index = 0);``. You can write your own serialization methods using these signatures.
+
+As an example, here is a writer function for Unity's Vector3 class.
+
+```cs
+public int WriteVector3(Vector3 input, byte[] array, int index = 0)
+{
+        // We can throw without writing to the array since we know how big our
+        // serialized object will be in memory ahead of time.
+        if (index + 12 > array.Length) throw new IndexOutOfRangeException();
+
+        index += Writers.WriteFloat(input.x, array, index);
+        index += Writers.WriteFloat(input.y, array, index);
+        Writers.WriteFloat(input.z, array, index);
+
+        // The writer functions return the bytes written, so we could return the
+        // sum of those if we really wanted to be safe.
+        return 12;
+}
+```
+
+And that's it!
+
+
 
