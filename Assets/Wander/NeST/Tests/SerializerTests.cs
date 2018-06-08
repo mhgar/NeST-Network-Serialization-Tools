@@ -79,4 +79,25 @@ public class SerializerTests
     );
     Assert.That(serializer.HasEnded, "Serializer still has data.");
   }
+
+  [TestCase(new byte[] { 0, 0, 0, 0x43, 0x40, 0, 0, 0, 0x20 }, 128f, 64, 32)]
+  public void SerializeGeneric(byte[] expected, float a, int b, byte c)
+  {
+    var buffer = new byte[9];
+    var serializer = new Serializer(buffer);
+
+    serializer.SerializeUsing<float, int, byte>(
+      a, Writers.WriteFloat,
+      b, Writers.WriteInt,
+      c, Writers.WriteByte
+    );
+
+    Assert.That(
+      CompareArray(serializer.Array, expected),
+      "The serialization result is different than expected.\n"+
+      "Got: " + PrintArray(serializer.Array) + "\nExpected: " + 
+      PrintArray(expected)
+    );
+    Assert.That(serializer.HasEnded, "Serializer still has data.");
+  }
 }
