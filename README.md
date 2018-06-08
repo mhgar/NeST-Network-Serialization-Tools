@@ -77,5 +77,41 @@ public int WriteVector3(Vector3 input, byte[] array, int index = 0)
 
 And that's it!
 
+## How do I use ISerializable?
 
+Like this:
 
+```cs
+struct SerializedStruct : ISerializable
+{
+        public float First;
+        public int Second;
+        public byte Third;
+
+        public void DeserializeFrom(Deserializer deserializer)
+        {
+                First = deserializer.DeserializeUsing<float>(Readers.ReadFloat);
+                Second = deserializer.DeserializeUsing<int>(Readers.ReadInt);
+                Third = deserializer.DeserializeUsing<byte>(Readers.ReadByte);
+        }
+
+        public void SerializeTo(Serializer serializer)
+        {
+                serializer.SerializeUsing(First, Writers.WriteFloat);
+                serializer.SerializeUsing(Second, Writers.WriteInt);
+                serializer.SerializeUsing(Third, Writers.WriteByte);
+        }
+}
+```
+
+The ``Serializer`` and ``Deserializer`` objects pass themselves to the respective functions which neatly allows you to use the same facilities that you used to call the serialization in the first place.
+
+You can then use ``SerializedStruct`` like this:
+
+```cs
+serializer.Serialize<SerializedStruct>(serializedStruct);
+
+// ... somewhere on another computer ...
+
+var serializedStruct = deserializer.Deserialize<SerializedStruct>(serializedStruct);
+```
