@@ -41,7 +41,7 @@ Writing a single variable. For extra safety, explicity write <> syntax.
 serializer.SerializeUsing<int>(64, Writers.WriteInt);
 ```
 
-Writing multiple variables at a time. *NOT YET IMPLEMETED*
+Writing multiple variables at a time.
 ```cs
 serializer.SerializeUsing<float, int, byte>(
         1024f, Writers.WriteFloat,
