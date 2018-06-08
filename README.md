@@ -1,4 +1,5 @@
 # NeST
+**LITTLE-ENDIAN ONLY FOR NOW**
 
 ## About
 NeST is a library for quickly serializing and deserializing arrays of bytes, intended for use at different ends of a network. NeST does not allocate memory for byte buffers, meaning if you have byte array network buffers, you can just pass those around.
