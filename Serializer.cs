@@ -6,45 +6,15 @@ namespace Wander.NeST
   /// objects from it until the end of the array.
   public class Serializer
   {
-    public byte[] Array { get { return data; } }
-    public int Length { get { return dataLength; } }
-    public int Position
-    {
-      get { return writeHead; }
-      set
-      {
-        if (value > dataLength)
-          throw new IndexOutOfRangeException();
-        else
-          writeHead = value;
-      }
-    }
-
     // Kind of unsafe but good enough for now.
-    public bool HasEnded { get { return Position == dataLength; }}
+    public bool HasData { get { return array.HasNext(); } }
+    public byte[] Internal { get { return array.Array; } }
 
-    byte[] data;
-    int writeHead = 0;
-    int dataLength;
+    ByteArray array;
 
-    public Serializer(byte[] array, int startIndex = 0, int length = -1)
+    public Serializer(ByteArray array)
     {
-      if (array == null)
-        throw new ArgumentNullException("array");
-
-      if (length > array.Length)
-        throw new ArgumentOutOfRangeException("length");
-
-      // If length is default value, use size of the array instead.
-      dataLength = (length < 0 ? array.Length : length);
-
-      // Check if start index is greater than the array length, or if 'length'
-      // has been set, check against that instead.
-      if (startIndex > dataLength - 1)
-        throw new ArgumentOutOfRangeException("startIndex");
-
-      writeHead = startIndex;
-      data = array;
+      this.array = array;
     }
 
     // Don't need new() here; just for parity with Deserialize()
@@ -59,7 +29,7 @@ namespace Wander.NeST
     public void SerializeUsing<T>(T value, Writers.Writer<T> writer)
     {
       // Allow thrown exceptions to fall through into the caller.
-      writeHead += writer(value, data, writeHead);
+      writer(value, array);
     }
 
     /* ***AUTO-GENERATED***
@@ -69,8 +39,8 @@ namespace Wander.NeST
       B valueB, Writers.Writer<B> writerB
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
     }
 
     public void SerializeUsing<A, B, C>(
@@ -79,9 +49,9 @@ namespace Wander.NeST
       C valueC, Writers.Writer<C> writerC
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
     }
 
     public void SerializeUsing<A, B, C, D>(
@@ -91,10 +61,10 @@ namespace Wander.NeST
       D valueD, Writers.Writer<D> writerD
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
     }
 
     public void SerializeUsing<A, B, C, D, E>(
@@ -105,11 +75,11 @@ namespace Wander.NeST
       E valueE, Writers.Writer<E> writerE
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F>(
@@ -121,12 +91,12 @@ namespace Wander.NeST
       F valueF, Writers.Writer<F> writerF
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G>(
@@ -139,13 +109,13 @@ namespace Wander.NeST
       G valueG, Writers.Writer<G> writerG
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H>(
@@ -159,14 +129,14 @@ namespace Wander.NeST
       H valueH, Writers.Writer<H> writerH
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I>(
@@ -181,15 +151,15 @@ namespace Wander.NeST
       I valueI, Writers.Writer<I> writerI
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
-      Position += writerI(valueI, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J>(
@@ -205,16 +175,16 @@ namespace Wander.NeST
       J valueJ, Writers.Writer<J> writerJ
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
-      Position += writerI(valueI, data, Position);
-      Position += writerJ(valueJ, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K>(
@@ -231,17 +201,17 @@ namespace Wander.NeST
       K valueK, Writers.Writer<K> writerK
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
-      Position += writerI(valueI, data, Position);
-      Position += writerJ(valueJ, data, Position);
-      Position += writerK(valueK, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L>(
@@ -259,18 +229,18 @@ namespace Wander.NeST
       L valueL, Writers.Writer<L> writerL
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
-      Position += writerI(valueI, data, Position);
-      Position += writerJ(valueJ, data, Position);
-      Position += writerK(valueK, data, Position);
-      Position += writerL(valueL, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L, M>(
@@ -289,19 +259,19 @@ namespace Wander.NeST
       M valueM, Writers.Writer<M> writerM
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
-      Position += writerI(valueI, data, Position);
-      Position += writerJ(valueJ, data, Position);
-      Position += writerK(valueK, data, Position);
-      Position += writerL(valueL, data, Position);
-      Position += writerM(valueM, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
+      writerM(valueM, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(
@@ -321,20 +291,20 @@ namespace Wander.NeST
       N valueN, Writers.Writer<N> writerN
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
-      Position += writerI(valueI, data, Position);
-      Position += writerJ(valueJ, data, Position);
-      Position += writerK(valueK, data, Position);
-      Position += writerL(valueL, data, Position);
-      Position += writerM(valueM, data, Position);
-      Position += writerN(valueN, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
+      writerM(valueM, array);
+      writerN(valueN, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(
@@ -355,21 +325,21 @@ namespace Wander.NeST
       O valueO, Writers.Writer<O> writerO
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
-      Position += writerI(valueI, data, Position);
-      Position += writerJ(valueJ, data, Position);
-      Position += writerK(valueK, data, Position);
-      Position += writerL(valueL, data, Position);
-      Position += writerM(valueM, data, Position);
-      Position += writerN(valueN, data, Position);
-      Position += writerO(valueO, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
+      writerM(valueM, array);
+      writerN(valueN, array);
+      writerO(valueO, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(
@@ -391,22 +361,22 @@ namespace Wander.NeST
       P valueP, Writers.Writer<P> writerP
     )
     {
-      Position += writerA(valueA, data, Position);
-      Position += writerB(valueB, data, Position);
-      Position += writerC(valueC, data, Position);
-      Position += writerD(valueD, data, Position);
-      Position += writerE(valueE, data, Position);
-      Position += writerF(valueF, data, Position);
-      Position += writerG(valueG, data, Position);
-      Position += writerH(valueH, data, Position);
-      Position += writerI(valueI, data, Position);
-      Position += writerJ(valueJ, data, Position);
-      Position += writerK(valueK, data, Position);
-      Position += writerL(valueL, data, Position);
-      Position += writerM(valueM, data, Position);
-      Position += writerN(valueN, data, Position);
-      Position += writerO(valueO, data, Position);
-      Position += writerP(valueP, data, Position);
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
+      writerM(valueM, array);
+      writerN(valueN, array);
+      writerO(valueO, array);
+      writerP(valueP, array);
     }
   }
 }

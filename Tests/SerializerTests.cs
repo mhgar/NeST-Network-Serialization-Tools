@@ -21,9 +21,11 @@ public class SerializerTests
 
     public void SerializeTo(Serializer serializer)
     {
-      serializer.SerializeUsing(First, Writers.WriteFloat);
-      serializer.SerializeUsing(Second, Writers.WriteInt);
-      serializer.SerializeUsing(Third, Writers.WriteByte);
+      serializer.SerializeUsing(
+        First, Writers.WriteFloat,
+        Second, Writers.WriteInt,
+        Third, Writers.WriteByte
+      );
     }
   }
 
@@ -49,43 +51,44 @@ public class SerializerTests
   public void SerializeInteger(byte[] expected, int value)
   {
     var buffer = new byte[4];
-    var serializer = new Serializer(buffer);
+    var serializer = new Serializer(new ByteArray(buffer));
 
     serializer.SerializeUsing(value, Writers.WriteInt);
 
     Assert.That(
-      CompareArray(serializer.Array, expected),
+      CompareArray(serializer.Internal, expected),
       "The serialization result is different than expected.\n"+
-      "Got: " + PrintArray(serializer.Array) + "\nExpected: " + 
+      "Got: " + PrintArray(serializer.Internal) + "\nExpected: " + 
       PrintArray(expected)
     );
-    Assert.That(serializer.HasEnded, "Serializer still has data.");
+    Assert.That(!serializer.HasData, "Serializer still has data.");
   }
 
   [TestCase(new byte[] { 0, 0, 0, 0x43, 0x40, 0, 0, 0, 0x20 }, 128f, 64, 32)]
   public void SerializeISerializable(byte[] expected, float first, int second, byte third)
   {
     var buffer = new byte[9];
-    var serializer = new Serializer(buffer);
+    var serializer = new Serializer(new ByteArray(buffer));
     var structure = new SerializedStruct() { First = first, Second = second, Third = third };
 
     serializer.Serialize(structure);
 
     Assert.That(
-      CompareArray(serializer.Array, expected),
+      CompareArray(serializer.Internal, expected),
       "The serialization result is different than expected.\n"+
-      "Got: " + PrintArray(serializer.Array) + "\nExpected: " + 
+      "Got: " + PrintArray(serializer.Internal) + "\nExpected: " + 
       PrintArray(expected)
     );
-    Assert.That(serializer.HasEnded, "Serializer still has data.");
+    Assert.That(!serializer.HasData, "Serializer still has data.");
   }
 
   [TestCase(new byte[] { 0, 0, 0, 0x43, 0x40, 0, 0, 0, 0x20 }, 128f, 64, 32)]
   public void SerializeGeneric(byte[] expected, float a, int b, byte c)
   {
     var buffer = new byte[9];
-    var serializer = new Serializer(buffer);
+    var serializer = new Serializer(new ByteArray(buffer));
 
+    
     serializer.SerializeUsing<float, int, byte>(
       a, Writers.WriteFloat,
       b, Writers.WriteInt,
@@ -93,11 +96,11 @@ public class SerializerTests
     );
 
     Assert.That(
-      CompareArray(serializer.Array, expected),
+      CompareArray(serializer.Internal, expected),
       "The serialization result is different than expected.\n"+
-      "Got: " + PrintArray(serializer.Array) + "\nExpected: " + 
+      "Got: " + PrintArray(serializer.Internal) + "\nExpected: " + 
       PrintArray(expected)
     );
-    Assert.That(serializer.HasEnded, "Serializer still has data.");
+    Assert.That(!serializer.HasData, "Serializer still has data.");
   }
 }

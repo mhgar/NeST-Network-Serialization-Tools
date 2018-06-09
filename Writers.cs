@@ -9,136 +9,97 @@ namespace Wander.NeST
   /// </summary>
   public static class Writers
   {
-    public delegate int Writer<T>(T value, byte[] array, int index = 0);
+    public delegate void Writer<T>(T value, ByteArray array);
 
-    public static int WriteString(string value, byte[] array, int index = 0)
+    public static void WriteString(string value, ByteArray array)
     {
       var length = value.Length;
       var numBytes = 4 + length * 2;
-      if (numBytes > array.Length - 1) 
-        throw new IndexOutOfRangeException();
+      if (!array.Has(numBytes)) throw new ArgumentOutOfRangeException();
 
-      WriteInt(length, array, index);
-      foreach(var c in value) WriteChar(c, array, index + 4);
-
-      return numBytes;
+      WriteInt(length, array);
+      foreach(var c in value) WriteChar(c, array);
     }
 
-    public static int WriteByte(byte value, byte[] array, int index = 0)
+    public static void WriteByte(byte value, ByteArray array)
     {
-      if (index + 1 > array.Length) 
-        throw new IndexOutOfRangeException();
-
-      array[index] = value;
-      return 1;
+      if (!array.HasNext()) throw new ArgumentOutOfRangeException();
+      array.Write(value);
     }
 
-    public static int WriteBool(bool value, byte[] array, int index = 0)
+    public static void WriteBool(bool value, ByteArray array)
     {
-      if (index + 1 > array.Length) 
-        throw new IndexOutOfRangeException();
-
-      array[index] = (value ? (byte) 1 : (byte) 0);
-      return 1;
+      if (!array.HasNext()) throw new ArgumentOutOfRangeException();
+      array.Write((value ? (byte) 1 : (byte) 0));
     }
 
-    public static int WriteSByte(sbyte value, byte[] array, int index = 0)
+    public static void WriteSByte(sbyte value, ByteArray array)
     {
-      if (index + 1 > array.Length) 
-        throw new IndexOutOfRangeException();
-
-      array[index] = (byte) value;
-      return 1;
+      if (!array.HasNext()) throw new ArgumentOutOfRangeException();
+      array.Write((byte) value);
     }
 
-    public static unsafe int WriteShort(short value, byte[] array, int index = 0)
+    public static unsafe void WriteShort(short value, ByteArray array)
     {
-      if (index + Sizes.ShortLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(2)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.ShortLength; i++) array[index + i] = ptr[i];
-      return Sizes.ShortLength; 
+      for (int i = 0; i < Sizes.ShortLength; i++) array.Write(ptr[i]);
     }
 
-    public static unsafe int WriteUShort(ushort value, byte[] array, int index = 0)
+    public static unsafe void WriteUShort(ushort value, ByteArray array)
     {
-      if (index + Sizes.UShortLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(2)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.UShortLength; i++) array[index + i] = ptr[i];
-      return Sizes.UShortLength; 
+      for (int i = 0; i < Sizes.UShortLength; i++) array.Write(ptr[i]);
     }
 
-    public static unsafe int WriteChar(char value, byte[] array, int index = 0)
+    public static unsafe void WriteChar(char value, ByteArray array)
     {
-      if (index + Sizes.CharLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(2)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.CharLength; i++) array[index + i] = ptr[i];
-      return Sizes.CharLength;  
+      for (int i = 0; i < Sizes.CharLength; i++) array.Write(ptr[i]);
     }
 
-    public static unsafe int WriteInt(int value, byte[] array, int index = 0)
+    public static unsafe void WriteInt(int value, ByteArray array)
     {
-      if (index + Sizes.IntLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(Sizes.IntLength)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.IntLength; i++) array[index + i] = ptr[i];
-      return Sizes.IntLength;  
+      for (int i = 0; i < Sizes.IntLength; i++) array.Write(ptr[i]);
     }
 
-    public static unsafe int WriteUInt(uint value, byte[] array, int index = 0)
+    public static unsafe void WriteUInt(uint value, ByteArray array)
     {
-      if (index + Sizes.UIntLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(Sizes.UIntLength)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.UIntLength; i++) array[index + i] = ptr[i];
-      return Sizes.UIntLength;  
+      for (int i = 0; i < Sizes.UIntLength; i++) array.Write(ptr[i]);
     }
 
-    public static unsafe int WriteFloat(float value, byte[] array, int index = 0)
+    public static unsafe void WriteFloat(float value, ByteArray array)
     {
-      if (index + Sizes.FloatLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(Sizes.FloatLength)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.FloatLength; i++) array[index + i] = ptr[i];
-      return Sizes.FloatLength;
+      for (int i = 0; i < Sizes.FloatLength; i++) array.Write(ptr[i]);
     }
 
-    public static unsafe int WriteDouble(double value, byte[] array, int index = 0)
+    public static unsafe void WriteDouble(double value, ByteArray array)
     {
-      if (index + Sizes.DoubleLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(Sizes.DoubleLength)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.DoubleLength; i++) array[index + i] = ptr[i];
-      return Sizes.DoubleLength;
+      for (int i = 0; i < Sizes.DoubleLength; i++) array.Write(ptr[i]);
     }
 
-    public static unsafe int WriteLong(long value, byte[] array, int index = 0)
+    public static unsafe void WriteLong(long value, ByteArray array)
     {
-      if (index + Sizes.LongLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(Sizes.LongLength)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.LongLength; i++) array[index + i] = ptr[i];
-      return Sizes.LongLength;
+      for (int i = 0; i < Sizes.LongLength; i++) array.Write(ptr[i]);
     }
 
-    public static unsafe int WriteULong(ulong value, byte[] array, int index = 0)
+    public static unsafe void WriteULong(ulong value, ByteArray array)
     {
-      if (index + Sizes.ULongLength > array.Length) 
-        throw new IndexOutOfRangeException();
-
+      if (!array.Has(Sizes.ULongLength)) throw new ArgumentOutOfRangeException();
       byte *ptr = (byte *) &value;
-      for (int i = 0; i < Sizes.ULongLength; i++) array[index + i] = ptr[i];
-      return Sizes.ULongLength;
+      for (int i = 0; i < Sizes.ULongLength; i++) array.Write(ptr[i]);
     }
   }
 }
