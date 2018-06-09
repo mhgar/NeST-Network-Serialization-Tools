@@ -94,6 +94,7 @@ public Vector3 ReadVector3(ByteArray array)
         vector.z = Readers.ReadFloat(array);
         return vector;
 }
+```
 
 And that's it! Read and write operations may end up throwing an IndexOutOfRange exception.
 
