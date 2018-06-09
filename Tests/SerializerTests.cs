@@ -21,9 +21,11 @@ public class SerializerTests
 
     public void SerializeTo(Serializer serializer)
     {
-      serializer.SerializeUsing(First, Writers.WriteFloat);
-      serializer.SerializeUsing(Second, Writers.WriteInt);
-      serializer.SerializeUsing(Third, Writers.WriteByte);
+      serializer.SerializeUsing(
+        First, Writers.WriteFloat,
+        Second, Writers.WriteInt,
+        Third, Writers.WriteByte
+      );
     }
   }
 

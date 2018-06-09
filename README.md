@@ -12,6 +12,10 @@ Place it inside a folder inside Assets/, or clone as a submodule. If you aren't 
 
 Now, here's how you use it in your program:
 
+### ByteArray
+
+ByteArray is a wrapper class for byte arrays. It stores a position and a length which you can change. ByteArrays are passed to writer and reader functions to safely write and read bytes.
+
 ### Deserialization
 
 Reading an object that implements ISerializable, with the interface's methods implemented.
@@ -59,28 +63,39 @@ serializer.SerializeUsing<float, int, byte>(
 
 Writers and readers are passed functions that contain the serialization or deserialization implementation. This makes it very easy to add your own serialization functionality on a case by case basis.
 
-The function signatures are defined in Writers.cs and Readers.cs as ``delegate int Writer<T>(T value, byte[] array, int index = 0);`` and ``delegate int Reader<T>(out T value, byte[] array, int index = 0);``. You can write your own serialization methods using these signatures.
+The function signatures are defined in Writers.cs and Readers.cs as ``delegate void Writer<T>(T value, ByteArray array);`` and ``delegate T Reader<T>(ByteArray array);``. You can write your own serialization methods using these signatures.
 
 As an example, here is a writer function for Unity's Vector3 class.
 
 ```cs
-public int WriteVector3(Vector3 input, byte[] array, int index = 0)
+public void WriteVector3(Vector3 input, ByteArray array)
 {
         // We can throw without writing to the array since we know how big our
         // serialized object will be in memory ahead of time.
-        if (index + 12 > array.Length) throw new IndexOutOfRangeException();
+        if (!array.Has(12)) throw new IndexOutOfRangeException();
 
-        Writers.WriteFloat(input.x, array, index);
-        Writers.WriteFloat(input.y, array, index + 4);
-        Writers.WriteFloat(input.z, array, index + 8);
-
-        // The writer functions return the bytes written, so we could return the
-        // sum of those if we really wanted to be safe.
-        return 12;
+        // Writing to a ByteArray increments it's internal position. WriteFloat
+        // here increment it's position by 4 each time.
+        Writers.WriteFloat(input.x, array);
+        Writers.WriteFloat(input.y, array);
+        Writers.WriteFloat(input.z, array);
 }
 ```
 
-And that's it!
+And here's a reader.
+
+```cs
+public Vector3 ReadVector3(ByteArray array)
+{
+        if (!array.Has(12)) throw new IndexOutOfRangeException();
+        var vector = Vector3.zero;
+        vector.x = Readers.ReadFloat(array);
+        vector.y = Readers.ReadFloat(array);
+        vector.z = Readers.ReadFloat(array);
+        return vector;
+}
+
+And that's it! Read and write operations may end up throwing an IndexOutOfRange exception.
 
 ## How do I use ISerializable?
 
@@ -102,9 +117,11 @@ struct SerializedStruct : ISerializable
 
         public void SerializeTo(Serializer serializer)
         {
-                serializer.SerializeUsing(First, Writers.WriteFloat);
-                serializer.SerializeUsing(Second, Writers.WriteInt);
-                serializer.SerializeUsing(Third, Writers.WriteByte);
+                serializer.SerializeUsing(
+                        First, Writers.WriteFloat,
+                        Second, Writers.WriteInt,
+                        Third, Writers.WriteByte
+                );
         }
 }
 ```
