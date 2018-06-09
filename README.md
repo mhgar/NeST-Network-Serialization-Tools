@@ -6,7 +6,9 @@ NeST is a library for quickly serializing and deserializing arrays of bytes, int
 
 ## How can I use it?
 
-Like this:
+Place it inside your Assets folder in Unity. If you aren't using Unity, you will need to make sure this module is compiled with 'unsafe' code enabled. The unsafe directive is used for serialization of primitive types.
+
+Now, here's how you use it in your program:
 
 ### Deserialization
 
