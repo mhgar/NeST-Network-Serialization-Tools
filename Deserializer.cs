@@ -6,45 +6,16 @@ namespace Wander.NeST
   /// objects from it until the end of the array.
   public class Deserializer
   {
-    public byte[] Array { get { return data; } }
-    public int Length { get { return dataLength; } }
-    public int Position
-    {
-      get { return readHead; }
-      set
-      {
-        if (value > dataLength)
-          throw new IndexOutOfRangeException();
-        else
-          readHead = value;
-      }
-    }
+    public bool HasData { get { return array.HasNext(); } }
 
-    // Kind of unsafe but good enough for now.
-    public bool HasEnded { get { return Position == dataLength; }}
+    ByteArray array;
 
-    byte[] data;
-    int readHead = 0;
-    int dataLength;
-
-    public Deserializer(byte[] array, int startIndex = 0, int length = -1)
+    public Deserializer(ByteArray array)
     {
       if (array == null) 
         throw new ArgumentNullException("array");
 
-      if (length > array.Length) 
-        throw new ArgumentOutOfRangeException("length");
-
-      // If length is default value, use size of the array instead.
-      dataLength = (length < 0 ? array.Length : length);
-
-      // Check if start index is greater than the array length, or if 'length'
-      // has been set, check against that instead.
-      if (startIndex > dataLength - 1) 
-        throw new ArgumentOutOfRangeException("startIndex");
-
-      data = array;
-      readHead = startIndex;      
+      this.array = array;      
     }
 
     /// Deserialize an ISerializable from this object's internal byte array.
@@ -60,7 +31,7 @@ namespace Wander.NeST
     public T DeserializeUsing<T>(Readers.Reader<T> reader)
     {
       T value;
-      Position += reader(out value, data, readHead);
+      array.Increment(reader(out value, array.Array, array.Position));
       return value;
     }
 
@@ -76,8 +47,8 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
       return v;
     }
 
@@ -90,9 +61,9 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
       return v;
     }
 
@@ -105,10 +76,10 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
       return v;
     }
 
@@ -122,11 +93,11 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
       return v;
     }
 
@@ -140,12 +111,12 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
       return v;
     }
 
@@ -160,13 +131,13 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
       return v;
     }
 
@@ -181,14 +152,14 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
       return v;
     }
 
@@ -204,15 +175,15 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H, I>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
-      Position += readerI(out v.i, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
+      array.Increment(readerI(out v.i, array.Array, array.Position));
       return v;
     }
 
@@ -228,16 +199,16 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H, I, J>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
-      Position += readerI(out v.i, data, Position);
-      Position += readerJ(out v.j, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
+      array.Increment(readerI(out v.i, array.Array, array.Position));
+      array.Increment(readerJ(out v.j, array.Array, array.Position));
       return v;
     }
 
@@ -254,17 +225,17 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H, I, J, K>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
-      Position += readerI(out v.i, data, Position);
-      Position += readerJ(out v.j, data, Position);
-      Position += readerK(out v.k, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
+      array.Increment(readerI(out v.i, array.Array, array.Position));
+      array.Increment(readerJ(out v.j, array.Array, array.Position));
+      array.Increment(readerK(out v.k, array.Array, array.Position));
       return v;
     }
 
@@ -281,18 +252,18 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H, I, J, K, L>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
-      Position += readerI(out v.i, data, Position);
-      Position += readerJ(out v.j, data, Position);
-      Position += readerK(out v.k, data, Position);
-      Position += readerL(out v.l, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
+      array.Increment(readerI(out v.i, array.Array, array.Position));
+      array.Increment(readerJ(out v.j, array.Array, array.Position));
+      array.Increment(readerK(out v.k, array.Array, array.Position));
+      array.Increment(readerL(out v.l, array.Array, array.Position));
       return v;
     }
 
@@ -310,19 +281,19 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H, I, J, K, L, M>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
-      Position += readerI(out v.i, data, Position);
-      Position += readerJ(out v.j, data, Position);
-      Position += readerK(out v.k, data, Position);
-      Position += readerL(out v.l, data, Position);
-      Position += readerM(out v.m, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
+      array.Increment(readerI(out v.i, array.Array, array.Position));
+      array.Increment(readerJ(out v.j, array.Array, array.Position));
+      array.Increment(readerK(out v.k, array.Array, array.Position));
+      array.Increment(readerL(out v.l, array.Array, array.Position));
+      array.Increment(readerM(out v.m, array.Array, array.Position));
       return v;
     }
 
@@ -340,20 +311,20 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H, I, J, K, L, M, N>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
-      Position += readerI(out v.i, data, Position);
-      Position += readerJ(out v.j, data, Position);
-      Position += readerK(out v.k, data, Position);
-      Position += readerL(out v.l, data, Position);
-      Position += readerM(out v.m, data, Position);
-      Position += readerN(out v.n, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
+      array.Increment(readerI(out v.i, array.Array, array.Position));
+      array.Increment(readerJ(out v.j, array.Array, array.Position));
+      array.Increment(readerK(out v.k, array.Array, array.Position));
+      array.Increment(readerL(out v.l, array.Array, array.Position));
+      array.Increment(readerM(out v.m, array.Array, array.Position));
+      array.Increment(readerN(out v.n, array.Array, array.Position));
       return v;
     }
 
@@ -372,21 +343,21 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
-      Position += readerI(out v.i, data, Position);
-      Position += readerJ(out v.j, data, Position);
-      Position += readerK(out v.k, data, Position);
-      Position += readerL(out v.l, data, Position);
-      Position += readerM(out v.m, data, Position);
-      Position += readerN(out v.n, data, Position);
-      Position += readerO(out v.o, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
+      array.Increment(readerI(out v.i, array.Array, array.Position));
+      array.Increment(readerJ(out v.j, array.Array, array.Position));
+      array.Increment(readerK(out v.k, array.Array, array.Position));
+      array.Increment(readerL(out v.l, array.Array, array.Position));
+      array.Increment(readerM(out v.m, array.Array, array.Position));
+      array.Increment(readerN(out v.n, array.Array, array.Position));
+      array.Increment(readerO(out v.o, array.Array, array.Position));
       return v;
     }
 
@@ -405,22 +376,22 @@ namespace Wander.NeST
     {
       var v =
         new Deserialized<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>();
-      Position += readerA(out v.a, data, Position);
-      Position += readerB(out v.b, data, Position);
-      Position += readerC(out v.c, data, Position);
-      Position += readerD(out v.d, data, Position);
-      Position += readerE(out v.e, data, Position);
-      Position += readerF(out v.f, data, Position);
-      Position += readerG(out v.g, data, Position);
-      Position += readerH(out v.h, data, Position);
-      Position += readerI(out v.i, data, Position);
-      Position += readerJ(out v.j, data, Position);
-      Position += readerK(out v.k, data, Position);
-      Position += readerL(out v.l, data, Position);
-      Position += readerM(out v.m, data, Position);
-      Position += readerN(out v.n, data, Position);
-      Position += readerO(out v.o, data, Position);
-      Position += readerP(out v.p, data, Position);
+      array.Increment(readerA(out v.a, array.Array, array.Position));
+      array.Increment(readerB(out v.b, array.Array, array.Position));
+      array.Increment(readerC(out v.c, array.Array, array.Position));
+      array.Increment(readerD(out v.d, array.Array, array.Position));
+      array.Increment(readerE(out v.e, array.Array, array.Position));
+      array.Increment(readerF(out v.f, array.Array, array.Position));
+      array.Increment(readerG(out v.g, array.Array, array.Position));
+      array.Increment(readerH(out v.h, array.Array, array.Position));
+      array.Increment(readerI(out v.i, array.Array, array.Position));
+      array.Increment(readerJ(out v.j, array.Array, array.Position));
+      array.Increment(readerK(out v.k, array.Array, array.Position));
+      array.Increment(readerL(out v.l, array.Array, array.Position));
+      array.Increment(readerM(out v.m, array.Array, array.Position));
+      array.Increment(readerN(out v.n, array.Array, array.Position));
+      array.Increment(readerO(out v.o, array.Array, array.Position));
+      array.Increment(readerP(out v.p, array.Array, array.Position));
       return v;
     }
     #endregion
