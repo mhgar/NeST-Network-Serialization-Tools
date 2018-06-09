@@ -6,3 +6,4 @@ ProjectSettings/
 obj/
 Packages/
 .vscode/
+**/*.meta
