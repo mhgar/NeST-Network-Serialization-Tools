@@ -29,7 +29,7 @@ namespace Wander.NeST
     public void SerializeUsing<T>(T value, Writers.Writer<T> writer)
     {
       // Allow thrown exceptions to fall through into the caller.
-      array.Increment(writer(value, array.Array, array.PositionA));
+      array.Increment(writer(value, array.Array, array.Position));
     }
 
     /* ***AUTO-GENERATED***
