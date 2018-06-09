@@ -86,6 +86,7 @@ public class SerializerTests
     var buffer = new byte[9];
     var serializer = new Serializer(new ByteArray(buffer));
 
+    
     serializer.SerializeUsing<float, int, byte>(
       a, Writers.WriteFloat,
       b, Writers.WriteInt,

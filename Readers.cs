@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace Wander.NeST
 {
@@ -9,132 +10,121 @@ namespace Wander.NeST
   /// </summary>
   public static class Readers
   {
-    public delegate int Reader<T>(out T value, byte[] array, int index = 0);
+    public delegate T Reader<T>(ByteArray array);
 
-    public static int ReadString(out string value, byte[] array, int index = 0)
+    public static string ReadString(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.IntLength)) throw new IndexOutOfRangeException();
 
-      int length;
-      ReadInt(out length, array, index);
-      value = System.Text.Encoding.Default.GetString(array, index + 4, length);
+      var length = ReadInt(array);
 
-      return 4 + length * 2;
+      if (!array.Has(length)) throw new IndexOutOfRangeException();
+
+      var str = new StringBuilder();
+      for (int i = 0; i < length; i++) str.Append(ReadChar(array));
+      return str.ToString();
     }
 
-    public static int ReadByte(out byte value, byte[] array, int index = 0)
+    public static byte ReadByte(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
-
-      value = array[index];
-      return 1;
+      if (!array.HasNext()) throw new IndexOutOfRangeException();
+      return array.Read();
     }
 
-    public static int ReadSByte(out sbyte value, byte[] array, int index = 0)
+    public static sbyte ReadSByte(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
-
-      value = (sbyte)array[index];
-      return 1;
+      if (!array.HasNext()) throw new IndexOutOfRangeException();
+      return (sbyte) array.Read();
     }
 
-    public static unsafe int ReadShort(out short value, byte[] array, int index = 0)
+    public static unsafe short ReadShort(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.ShortLength)) throw new IndexOutOfRangeException();
 
       short output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.ShortLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.ShortLength;
+      for (int i = 0; i < Sizes.ShortLength; i++) ptr[i] = array.Read();
+      return output;
     }
-
-    public static unsafe int ReadUShort(out ushort value, byte[] array, int index = 0)
+    
+    public static unsafe ushort ReadUShort(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.UShortLength)) throw new IndexOutOfRangeException();
 
       ushort output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.UShortLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.UShortLength;
+      for (int i = 0; i < Sizes.UShortLength; i++) ptr[i] = array.Read();
+      return output;
     }
 
-    public static unsafe int ReadChar(out char value, byte[] array, int index = 0)
+    public static unsafe char ReadChar(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.CharLength)) throw new IndexOutOfRangeException();
 
       char output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.CharLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.CharLength;
+      for (int i = 0; i < Sizes.CharLength; i++) ptr[i] = array.Read();
+      return output;
     }
 
-    public static unsafe int ReadInt(out int value, byte[] array, int index = 0)
+    public static unsafe int ReadInt(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.IntLength)) throw new IndexOutOfRangeException();
 
       int output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.IntLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.IntLength;
+      for (int i = 0; i < Sizes.IntLength; i++) ptr[i] = array.Read();
+      return output;
     }
 
-    public static unsafe int ReadUInt(out uint value, byte[] array, int index = 0)
+    public static unsafe uint ReadUInt(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.UIntLength)) throw new IndexOutOfRangeException();
 
       uint output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.UIntLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.UIntLength;
+      for (int i = 0; i < Sizes.UIntLength; i++) ptr[i] = array.Read();
+      return output;
     }
 
-    public static unsafe int ReadFloat(out float value, byte[] array, int index = 0)
+    public static unsafe float ReadFloat(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.FloatLength)) throw new IndexOutOfRangeException();
 
       float output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.FloatLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.FloatLength;
+      for (int i = 0; i < Sizes.FloatLength; i++) ptr[i] = array.Read();
+      return output;
     }
 
-    public static unsafe int ReadLong(out long value, byte[] array, int index = 0)
+    public static unsafe long ReadLong(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.LongLength)) throw new IndexOutOfRangeException();
 
       long output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.LongLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.LongLength;
+      for (int i = 0; i < Sizes.LongLength; i++) ptr[i] = array.Read();
+      return output;
     }
 
-    public static unsafe int ReadULong(out ulong value, byte[] array, int index = 0)
+    public static unsafe ulong ReadULong(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.ULongLength)) throw new IndexOutOfRangeException();
 
       ulong output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.ULongLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.ULongLength;
+      for (int i = 0; i < Sizes.ULongLength; i++) ptr[i] = array.Read();
+      return output;
     }
 
-    public static unsafe int ReadDouble(out double value, byte[] array, int index = 0)
+    public static unsafe double ReadDouble(ByteArray array)
     {
-      if (index + 1 > array.Length) throw new IndexOutOfRangeException();
+      if (!array.Has(Sizes.DoubleLength)) throw new IndexOutOfRangeException();
 
       double output;
       byte* ptr = (byte*)&output;
-      for (int i = 0; i < Sizes.DoubleLength; i++) ptr[i] = array[index + i];
-      value = output;
-      return Sizes.DoubleLength;
+      for (int i = 0; i < Sizes.DoubleLength; i++) ptr[i] = array.Read();
+      return output;
     }
   }
 }

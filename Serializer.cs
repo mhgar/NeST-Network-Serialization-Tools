@@ -29,7 +29,7 @@ namespace Wander.NeST
     public void SerializeUsing<T>(T value, Writers.Writer<T> writer)
     {
       // Allow thrown exceptions to fall through into the caller.
-      array.Increment(writer(value, array.Array, array.Position));
+      writer(value, array);
     }
 
     /* ***AUTO-GENERATED***
@@ -39,8 +39,8 @@ namespace Wander.NeST
       B valueB, Writers.Writer<B> writerB
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
     }
 
     public void SerializeUsing<A, B, C>(
@@ -49,9 +49,9 @@ namespace Wander.NeST
       C valueC, Writers.Writer<C> writerC
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
     }
 
     public void SerializeUsing<A, B, C, D>(
@@ -61,10 +61,10 @@ namespace Wander.NeST
       D valueD, Writers.Writer<D> writerD
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
     }
 
     public void SerializeUsing<A, B, C, D, E>(
@@ -75,11 +75,11 @@ namespace Wander.NeST
       E valueE, Writers.Writer<E> writerE
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F>(
@@ -91,12 +91,12 @@ namespace Wander.NeST
       F valueF, Writers.Writer<F> writerF
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G>(
@@ -109,13 +109,13 @@ namespace Wander.NeST
       G valueG, Writers.Writer<G> writerG
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H>(
@@ -129,14 +129,14 @@ namespace Wander.NeST
       H valueH, Writers.Writer<H> writerH
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I>(
@@ -151,15 +151,15 @@ namespace Wander.NeST
       I valueI, Writers.Writer<I> writerI
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
-      array.Increment(writerI(valueI, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J>(
@@ -175,16 +175,16 @@ namespace Wander.NeST
       J valueJ, Writers.Writer<J> writerJ
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
-      array.Increment(writerI(valueI, array.Array, array.Position));
-      array.Increment(writerJ(valueJ, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K>(
@@ -201,17 +201,17 @@ namespace Wander.NeST
       K valueK, Writers.Writer<K> writerK
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
-      array.Increment(writerI(valueI, array.Array, array.Position));
-      array.Increment(writerJ(valueJ, array.Array, array.Position));
-      array.Increment(writerK(valueK, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L>(
@@ -229,18 +229,18 @@ namespace Wander.NeST
       L valueL, Writers.Writer<L> writerL
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
-      array.Increment(writerI(valueI, array.Array, array.Position));
-      array.Increment(writerJ(valueJ, array.Array, array.Position));
-      array.Increment(writerK(valueK, array.Array, array.Position));
-      array.Increment(writerL(valueL, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L, M>(
@@ -259,19 +259,19 @@ namespace Wander.NeST
       M valueM, Writers.Writer<M> writerM
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
-      array.Increment(writerI(valueI, array.Array, array.Position));
-      array.Increment(writerJ(valueJ, array.Array, array.Position));
-      array.Increment(writerK(valueK, array.Array, array.Position));
-      array.Increment(writerL(valueL, array.Array, array.Position));
-      array.Increment(writerM(valueM, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
+      writerM(valueM, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(
@@ -291,20 +291,20 @@ namespace Wander.NeST
       N valueN, Writers.Writer<N> writerN
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
-      array.Increment(writerI(valueI, array.Array, array.Position));
-      array.Increment(writerJ(valueJ, array.Array, array.Position));
-      array.Increment(writerK(valueK, array.Array, array.Position));
-      array.Increment(writerL(valueL, array.Array, array.Position));
-      array.Increment(writerM(valueM, array.Array, array.Position));
-      array.Increment(writerN(valueN, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
+      writerM(valueM, array);
+      writerN(valueN, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(
@@ -325,21 +325,21 @@ namespace Wander.NeST
       O valueO, Writers.Writer<O> writerO
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
-      array.Increment(writerI(valueI, array.Array, array.Position));
-      array.Increment(writerJ(valueJ, array.Array, array.Position));
-      array.Increment(writerK(valueK, array.Array, array.Position));
-      array.Increment(writerL(valueL, array.Array, array.Position));
-      array.Increment(writerM(valueM, array.Array, array.Position));
-      array.Increment(writerN(valueN, array.Array, array.Position));
-      array.Increment(writerO(valueO, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
+      writerM(valueM, array);
+      writerN(valueN, array);
+      writerO(valueO, array);
     }
 
     public void SerializeUsing<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(
@@ -361,23 +361,22 @@ namespace Wander.NeST
       P valueP, Writers.Writer<P> writerP
     )
     {
-      array.Increment(writerA(valueA, array.Array, array.Position));
-      array.Increment(writerB(valueB, array.Array, array.Position));
-      array.Increment(writerC(valueC, array.Array, array.Position));
-      array.Increment(writerD(valueD, array.Array, array.Position));
-      array.Increment(writerE(valueE, array.Array, array.Position));
-      array.Increment(writerF(valueF, array.Array, array.Position));
-      array.Increment(writerG(valueG, array.Array, array.Position));
-      array.Increment(writerH(valueH, array.Array, array.Position));
-      array.Increment(writerI(valueI, array.Array, array.Position));
-      array.Increment(writerJ(valueJ, array.Array, array.Position));
-      array.Increment(writerK(valueK, array.Array, array.Position));
-      array.Increment(writerL(valueL, array.Array, array.Position));
-      array.Increment(writerM(valueM, array.Array, array.Position));
-      array.Increment(writerN(valueN, array.Array, array.Position));
-      array.Increment(writerO(valueO, array.Array, array.Position));
-      array.Increment(writerP(valueP, array.Array, array.Position));
+      writerA(valueA, array);
+      writerB(valueB, array);
+      writerC(valueC, array);
+      writerD(valueD, array);
+      writerE(valueE, array);
+      writerF(valueF, array);
+      writerG(valueG, array);
+      writerH(valueH, array);
+      writerI(valueI, array);
+      writerJ(valueJ, array);
+      writerK(valueK, array);
+      writerL(valueL, array);
+      writerM(valueM, array);
+      writerN(valueN, array);
+      writerO(valueO, array);
+      writerP(valueP, array);
     }
-
   }
 }

@@ -8,6 +8,7 @@ namespace Wander.NeST
     public int Count { get; private set; }
     public int Position { 
       get { return position; } 
+      set { position = value; }
     }
 
     int position = 0;
@@ -52,7 +53,7 @@ namespace Wander.NeST
 
     public bool HasNext()
     {
-      return position < Count;
+      return Has(1);
     }
 
     public bool Has(int count)
@@ -60,12 +61,26 @@ namespace Wander.NeST
       return position + count <= Count;
     }
 
+    public void Write(byte value)
+    {
+      if (HasNext())
+        buffer[position++] = value;
+      else
+        throw new IndexOutOfRangeException();
+    }
+
+    public byte Read()
+    {
+      if (HasNext())
+        return buffer[position++];
+      else
+        throw new IndexOutOfRangeException();
+    }
+
     public void Increment(int count)
     {
       if (!Has(count))
-        throw new IndexOutOfRangeException(
-          String.Format("Position={0} Increment={1} Length={2}", position, count, Count)
-        );
+        throw new IndexOutOfRangeException();
       else
         position += count;
     }
